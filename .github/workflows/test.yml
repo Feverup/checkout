@@ -72,6 +72,21 @@ jobs:
         shell: bash
         run: __test__/verify-side-by-side.sh
 
+     # Sparse checkout
+      - name: Sparse checkout
+        uses: ./
+        with:
+          sparse-checkout: |
+            __test__
+            .github
+            dist
+          path: sparse-checkout
+
+      - name: Verify sparse checkout basic
+        run: __test__/verify-sparse-checkout-basic.sh
+      - name: Verify sparse checkout example
+        run: __test__/verify-sparse-checkout.sh
+
       # LFS
       - name: Checkout LFS
         uses: ./
@@ -205,7 +220,7 @@ jobs:
           path: basic
       - name: Verify basic
         run: __test__/verify-basic.sh --archive
-    
+
   test-git-container:
     runs-on: ubuntu-latest
     container: bitnami/git:latest
